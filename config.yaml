@@ -1,0 +1,12 @@
+## input ##
+input: metadata/samples.tsv
+
+## output directory ##
+outdir: ancestry_results
+
+## resources and references ##
+reference: /juno/work/access/production/resources/reference/versions/hg19/Homo_sapiens_assembly19.fasta
+## To consider: make the PLINK and marker files part of the repo? ##
+kgbed: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps
+markers_txt: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps.no_mhc.txt
+markers_vcf: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps.no_mhc.vcf
