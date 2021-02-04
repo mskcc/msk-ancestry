@@ -1,24 +1,26 @@
 rule genotype:
     input:
-        pileup = os.path.join(tmpdir, "{sample}.pileup.txt")
-        reference = reference
+        pileup = os.path.join(tmpdir, "{sample}.pileup.txt"),
+        reference = reference,
         markers_txt = markers_txt
     output:
-        temp(os.path.join(tmpdir,{sample}.genotypes.vcf))
+        temp(os.path.join(tmpdir,"{sample}.genotypes.vcf"))
     conda:
         "../envs/genotyping.yaml"
+    params:
+        snakemakedir = snakemakedir
     shell:
-    "../scripts/pileup_to_vcf.py \
-    -P {sample}.pileup.txt \
-    -M {input.markers_txt} \
-    -F {input.reference} \
-    -O {sample}.genotypes.vcf \
-    -N {sample}
+    	"{params.snakemakedir}/scripts/pileup_to_vcf.py \
+    	-P {input.pileup} \
+    	-M {input.markers_txt} \
+    	-F {input.reference} \
+    	-O {output} \
+    	-N {wildcards.sample}"
 
 rule pileup:
     input:
-        bam = lambda wildcards: bams[wildcards.sample]
-        markers_vcf = markers_vcf
+        bam = lambda wildcards: bams[wildcards.sample],
+        markers_vcf = markers_vcf,
         reference = reference
     output:
         pileup = temp(os.path.join(tmpdir, "{sample}.pileup.txt"))

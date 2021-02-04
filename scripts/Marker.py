@@ -15,7 +15,7 @@ class Marker:
     def __init__(self, chrom, pos, id, ref, alt, RAF):
         self.chrom = chrom
         self.pos = pos
-  	self.id = id
+        self.id = id
         self.ref = ref
         self.alt = alt
         self.RAF = RAF
@@ -30,8 +30,8 @@ def get_markers(marker_file):
         if "#" in line:
             continue
         line = line.split()
-	if "," in line[5]:
-	    continue
+        if "," in line[5]:
+            continue
         M = Marker(line[0], line[1], line[2], line[3], line[4], float(line[5]))
         Marker_Set[line[0] + ":" + line[1]] = M
     markers.close()
@@ -64,7 +64,7 @@ def parse_mpileup_line(line, min_map_quality=0, min_base_quality=0):
     if min_map_quality > 0:
         verbose_lines = line[6].split(',')
         mapqs = [v.split('@')[-1] for v in verbose_lines]
-        mapqs_above_threshold = set([i for i in xrange(0, len(mapqs)) if int(mapqs[i]) >= min_map_quality])
+        mapqs_above_threshold = set([i for i in range(0, len(mapqs)) if int(mapqs[i]) >= min_map_quality])
 
     indexes_A = find_all_positions_of_char(bases, 'A')
     indexes_C = find_all_positions_of_char(bases, 'C')
@@ -99,7 +99,7 @@ def genotype_likelihoods_for_markers(Markers, mpileup_file, min_map_quality=0, m
             marker = Markers[pileup.chrom + ":" + pileup.pos]
         except:
             continue
-   	id = marker.id
+        id = marker.id
         ref = marker.ref
         alt = marker.alt
         RAF = marker.RAF
@@ -110,8 +110,8 @@ def genotype_likelihoods_for_markers(Markers, mpileup_file, min_map_quality=0, m
 
         AA_likelihood, AB_likelihood, BB_likelihood = compute_genotype_likelihood(pileup.Quals[ref], pileup.Quals[alt], normalize=False)
         prAA, prAB, prBB = prior_genotype_probability(RAF)
-	if prAA == 0 or prBB == 0 or prAB == 0:
-	    continue
+        if prAA == 0 or prBB == 0 or prAB == 0:
+            continue
         M[pileup.chrom + ":" + pileup.pos] = {'likelihoods' : [AA_likelihood/prAA, AB_likelihood/prAB, BB_likelihood/prBB], 'coverage': pileup.depth}
 
     for m in Markers:
@@ -164,5 +164,5 @@ def baseQ2int(baseQ_string, scaling_factor=33):
 
 
 def find_all_positions_of_char(s, char):
-    indexes = [i for i in xrange(0, len(s)) if s[i] == char]
+    indexes = [i for i in range(0, len(s)) if s[i] == char]
     return(indexes)

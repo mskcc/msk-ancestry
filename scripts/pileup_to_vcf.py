@@ -102,6 +102,6 @@ if REMOVE_CHR_PREFIX == "yes":
 #  Set output permissions
 #  ===============================
 try:
-    os.chmod(opts.outfile, 0660)
+    os.chmod(opts.outfile, 0o660)
 except OSError:
     pass # only the owner can change the file permissions
