@@ -1,9 +1,9 @@
 rule vcf_to_plink:
     input:
-        os.path.join(tmpdir,"{sample}.genotypes.vcf")
+        os.path.join(tmpdir, "{sample}", "{sample}.genotypes.vcf")
     output:
-        bed = temp(os.path.join(tmpdir, "{sample}.bed")),
-        ids = temp(os.path.join(tmpdir, "{sample}.rsids.txt"))
+        bed = os.path.join(tmpdir, "{sample}", "{sample}.bed"),
+        ids = os.path.join(tmpdir, "{sample}", "{sample}.rsids.txt")
     conda:
         "../envs/plink.yaml"
     shell:
@@ -19,26 +19,25 @@ rule vcf_to_plink:
 
         cut -f 2 $bedprefix.bim > {output.ids}
         """
-
 rule merge_with_1kgp:
     input:
-        bed = os.path.join(tmpdir, "{sample}.bed"),
-        ids = os.path.join(tmpdir, "{sample}.rsids.txt"),
-        kgbed = kgbed
+        bed = os.path.join(tmpdir, "{sample}", "{sample}.bed"),
+        ids = os.path.join(tmpdir, "{sample}", "{sample}.rsids.txt")
     output:
-        bed = temp(os.path.join(tmpdir, "{sample}.w1kgpref.tmp.bed")),
-        ids = temp(os.path.join(tmpdir, "{sample}.w1kgpref.tmp.prune.in"))
+        bed = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.tmp.bed"),
+        ids = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.tmp.prune.in")
     conda:
         "../envs/plink.yaml"
     params:
-        ignore_fams = config["ignore_fams"]
+        ignore_fams = config["ignore_fams"],
+        kgbed = kgbed
     shell:
         """
         inputbedprefix=`echo {input.bed} | sed 's/.bed$//'`
         outputbedprefix=`echo {output.bed} | sed 's/.bed$//'`
 
         plink \
-        --bfile {input.kgbed} \
+        --bfile {params.kgbed} \
         --bmerge $inputbedprefix \
         --extract {input.ids} \
         --make-bed \
@@ -49,10 +48,10 @@ rule merge_with_1kgp:
 
 rule keep_ld_pruned:
     input:
-        bed = os.path.join(tmpdir, "{sample}.w1kgpref.tmp.bed"),
-        ids = os.path.join(tmpdir, "{sample}.w1kgpref.tmp.prune.in")
+        bed = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.tmp.bed"),
+        ids = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.tmp.prune.in")
     output:
-        bed = temp(os.path.join(tmpdir, "{sample}.w1kgpref.bed")
+        bed = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.bed")
     conda:
         "../envs/plink.yaml"
     shell:

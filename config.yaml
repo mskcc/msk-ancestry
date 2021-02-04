@@ -10,3 +10,4 @@ reference: /juno/work/access/production/resources/reference/versions/hg19/Homo_s
 kgbed: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps
 markers_txt: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps.no_mhc.txt
 markers_vcf: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps.no_mhc.vcf
+ignore_fams: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1KGP_admixed_samples.fam

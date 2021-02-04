@@ -1,10 +1,10 @@
 rule genotype:
     input:
-        pileup = os.path.join(tmpdir, "{sample}.pileup.txt"),
+        pileup = os.path.join(tmpdir, "{sample}", "{sample}.pileup.txt"),
         reference = reference,
         markers_txt = markers_txt
     output:
-        temp(os.path.join(tmpdir,"{sample}.genotypes.vcf"))
+        temp(os.path.join(tmpdir, "{sample}", "{sample}.genotypes.vcf"))
     conda:
         "../envs/genotyping.yaml"
     params:
@@ -23,7 +23,7 @@ rule pileup:
         markers_vcf = markers_vcf,
         reference = reference
     output:
-        pileup = temp(os.path.join(tmpdir, "{sample}.pileup.txt"))
+        pileup = temp(os.path.join(tmpdir, "{sample}", "{sample}.pileup.txt"))
     conda:
         "../envs/gatk.yaml"
     shell:
