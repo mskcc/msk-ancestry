@@ -44,8 +44,6 @@ rule final:
         pdf = os.path.join(outdir,"admixture_results.pdf")
     conda:
         "envs/rplot.yaml"
-    params:
-        tmpdir = tmpdir
     script:
         "scripts/plot_admixture.R"
 
