@@ -22,11 +22,22 @@ numpops = len(pd.read_table(kgpops, dtype="str")["SuperPop"].drop_duplicates())
 wildcard_constraints:
     sample="[a-zA-Z0-9_\-]+"
 
-localrules: final, create_pop_file, sample_admixture_file 
+localrules: final, create_pop_file, sample_admixture_file
 
 rule final:
     input:
-        expand(os.path.join(outdir, "{sample}.admixture_results.txt"), sample=samples)
+        expand(os.path.join(outdir, "individual_results", "{sample}.admixture_results.txt"), sample=samples)
+#    output:
+#        txt = os.path.join(outdir,"admixture_results.txt")
+#        pdf = os.path.join(outdir,"admixture_results.pdf")
+    params:
+        outdir = outdir
+        samples = samples
+    conda:
+        "envs/rplot.yaml"
+    script:
+        "scripts/plot_admixture.R"
+
 
 include: "rules/genotype_markers.smk"
 include: "rules/merge_with_1KGP.smk"
