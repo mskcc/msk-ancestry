@@ -19,3 +19,6 @@ You can modify the ***config.yaml*** file to change the input file or output dir
 ### NOTE:
 - Currently the config file points to the resource files in juno. These files will have to copied and the config file will have to be modified if you want to run this on a machine that cannot access these files.
 - The sample name can only have alphanumeric characters, underscore (\_) or hyphen (-). If it has any other characters, the workflow will fail.  
+
+## Workflow diagram:
+<img src="https://github.com/mskcc/msk-ancestry/blob/main/misc/workflow_diagram.png" width="40%" height="40%">
