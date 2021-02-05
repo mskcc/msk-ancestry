@@ -11,3 +11,4 @@ kgbed: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/
 markers_txt: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps.no_mhc.txt
 markers_vcf: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps.no_mhc.vcf
 ignore_fams: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1KGP_admixed_samples.fam
+kgpops: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/1000genomes/all_phase3.psam

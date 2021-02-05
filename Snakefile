@@ -22,7 +22,7 @@ numpops = len(pd.read_table(kgpops, dtype="str")["SuperPop"].drop_duplicates())
 wildcard_constraints:
     sample="[a-zA-Z0-9_\-]+"
 
-localrules: final
+localrules: final, create_pop_file
 
 rule final:
     input:
@@ -30,3 +30,4 @@ rule final:
 
 include: "rules/genotype_markers.smk"
 include: "rules/merge_with_1KGP.smk"
+include: "rules/run_admixture.smk"
