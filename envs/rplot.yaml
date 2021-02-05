@@ -2,7 +2,8 @@ channels:
   - r
   - conda-forge
 dependencies:
-  - r-base =3.6.1
-  - r-ggplot2
+  - r-base
+  - r-tidyverse
   - r-reshape2
   - r-rcolorbrewer
+  - r-data.table
