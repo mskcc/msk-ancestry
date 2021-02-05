@@ -16,6 +16,8 @@ reference = config["reference"]
 kgbed = config["kgbed"]
 markers_txt = config["markers_txt"]
 markers_vcf = config["markers_vcf"]
+kgpops = config["kgpops"]
+numpops = len(pd.read_table(kgpops, dtype="str")["SuperPop"].drop_duplicates())
 
 wildcard_constraints:
     sample="[a-zA-Z0-9_\-]+"
@@ -24,7 +26,7 @@ localrules: final
 
 rule final:
     input:
-        expand(os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.bed"), sample=samples)
+        expand(os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref."+str(numpops)+".Q"), sample=samples)
 
 include: "rules/genotype_markers.smk"
 include: "rules/merge_with_1KGP.smk"
