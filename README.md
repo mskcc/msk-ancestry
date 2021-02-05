@@ -16,3 +16,6 @@ snakemake --use-conda --profile lsf
 This expects the Snakemake file in the current working directory.
 You can modify the ***config.yaml*** file to change the input file or output directory. By default, it uses the ***metadata/samples.tsv*** file as input.
 
+### NOTE:
+- Currently the config file points to the resource files in juno. These files will have to copied and the config file will have to be modified if you want to run this on a machine that cannot access these files.
+- The sample name can only have alphanumeric characters, underscore (\_) or hyphen (-). If it has any other characters, the workflow will fail.  

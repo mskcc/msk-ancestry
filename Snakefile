@@ -22,9 +22,9 @@ numpops = len(pd.read_table(kgpops, dtype="str")["SuperPop"].drop_duplicates())
 wildcard_constraints:
     sample="[a-zA-Z0-9_\-]+"
 
-localrules: final, create_pop_file, sample_admixture_file, cleanup_final
+localrules: merge_and_plot, create_pop_file, sample_admixture_output, cleanup
 
-rule cleanup_final:
+rule cleanup:
     input:
         os.path.join(outdir,"admixture_results.txt")
     params:
@@ -36,7 +36,7 @@ rule cleanup_final:
         fi
         """
 
-rule final:
+rule merge_and_plot:
     input:
         expand(os.path.join(outdir, "individual_results", "{sample}.admixture_results.txt"), sample=samples)
     output:

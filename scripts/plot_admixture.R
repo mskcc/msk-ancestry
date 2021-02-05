@@ -37,7 +37,7 @@ sortsamples <- function(admixture) {
 }
 
 admixturebarplot <- function(admixture) {
-  admix <- reshape2::melt(admixture, ids=c("Sample"))
+  admix <- reshape2::melt(admixture, id.vars=c("Sample"))
   admix$Sample <- factor(admix$Sample, levels=sortsamples(admixture))
   p <- ggplot(admix, aes(x=Sample, y=value, fill=variable)) +
     geom_bar(stat="identity") + 
@@ -69,6 +69,7 @@ if(nrow(admixture)<10){
   pdfwidth=10
 }
 pdf(snakemake@output[["pdf"]], width=pdfwidth, height=5)
+theme_set(theme_bw())
 admixturebarplot(admixture)
 dev.off()
 

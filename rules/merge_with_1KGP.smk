@@ -51,7 +51,8 @@ rule keep_ld_pruned:
         bed = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.tmp.bed"),
         ids = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.tmp.prune.in")
     output:
-        bed = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.bed")
+        bed = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.bed"),
+        fam = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.fam")
     conda:
         "../envs/plink.yaml"
     shell:

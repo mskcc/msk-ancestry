@@ -35,7 +35,7 @@ rule run_supervised_admixture:
         cd {params.cwd}
         """
 
-rule sample_admixture_file:
+rule sample_admixture_output:
     input:
         admix = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref."+str(numpops)+".Q"),
         fam = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.fam")
