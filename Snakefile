@@ -22,11 +22,11 @@ numpops = len(pd.read_table(kgpops, dtype="str")["SuperPop"].drop_duplicates())
 wildcard_constraints:
     sample="[a-zA-Z0-9_\-]+"
 
-localrules: final, create_pop_file
+localrules: final, create_pop_file, sample_admixture_file 
 
 rule final:
     input:
-        expand(os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref."+str(numpops)+".Q"), sample=samples)
+        expand(os.path.join(outdir, "{sample}.admixture_results.txt"), sample=samples)
 
 include: "rules/genotype_markers.smk"
 include: "rules/merge_with_1KGP.smk"
