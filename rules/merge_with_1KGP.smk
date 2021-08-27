@@ -42,7 +42,7 @@ rule merge_with_1kgp:
         --extract {input.ids} \
         --make-bed \
         --out $outputbedprefix \
-        --indep-pairwise 500kb 50 0.2 \
+        --indep-pairwise 500 50 0.2 \
         --remove {params.ignore_fams}
         """
 
