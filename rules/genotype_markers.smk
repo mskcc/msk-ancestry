@@ -8,8 +8,6 @@ rule genotype:
         markers_txt = markers_txt
     output:
         os.path.join(tmpdir, "{sample}", "{sample}.genotypes.vcf")
-    conda:
-        "../envs/genotyping.yaml"
     params:
         snakemakedir = snakemakedir
     shell:
