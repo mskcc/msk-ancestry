@@ -7,12 +7,14 @@ Currently it is only tested on the juno cluster.
 ### Requirements:
 - python3
   - pandas
+  - numpy
 - conda
 - [snakemake](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html)
 - [snakemake lsf profile](https://github.com/Snakemake-Profiles/lsf) (if running on LSF cluster)
 
 ### Example command:
-`snakemake --use-conda --profile lsf`
+`snakemake --use-conda`
+If running on LSF cluster: `snakemake --use-conda --profile lsf`
 
 This expects the Snakemake file in the current working directory.
 You can modify the ***config.yaml*** file to change the input file or output directory. By default, it uses the ***metadata/samples.tsv*** file as input.
