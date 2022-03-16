@@ -7,8 +7,11 @@ outdir: ancestry_results
 ## resources and references ##
 reference: /juno/work/access/production/resources/reference/versions/hg19/Homo_sapiens_assembly19.fasta
 ## To consider: make the PLINK and marker files part of the repo? ##
-kgbed: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps
-markers_txt: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps.no_mhc.txt
-markers_vcf: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1000genomes_phase3_impact_maf0.01_snps.no_mhc.vcf
-ignore_fams: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/marker_selection/1KGP_admixed_samples.fam
-kgpops: /juno/work/bergerm1/bergerlab/arorak/ancestry/resources/1000genomes/all_phase3.psam
+kgbed: data/1000genomes_phase3_impactv7_maf0.01_snps
+markers_txt: data/impactv7_and_asj_markers.txt
+markers_vcf: data/impactv7_and_asj_markers.vcf
+asj_markers: data/asj_marker_ids.txt
+asj_marker_cutoff: 3
+admix_frac_cutoff: 0.8
+ignore_fams: data/1KGP_admixed_samples.fam
+kgpops: data/all_phase3.new.psam

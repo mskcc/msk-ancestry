@@ -53,7 +53,7 @@ class Pileup:
 
 
 def parse_mpileup_line(line, min_map_quality=0, min_base_quality=0):
-
+    
     line = line.split()
     chrom = line[0]
     pos = line[1]
@@ -94,7 +94,10 @@ def genotype_likelihoods_for_markers(Markers, mpileup_file, min_map_quality=0, m
     for line in f:
         if line.startswith("[REDUCE RESULT]"):
             continue
-        pileup = parse_mpileup_line(line, min_map_quality=min_map_quality, min_base_quality=min_base_quality)
+        try:
+            pileup = parse_mpileup_line(line, min_map_quality=min_map_quality, min_base_quality=min_base_quality)
+        except:
+            continue
         try:
             marker = Markers[pileup.chrom + ":" + pileup.pos]
         except:

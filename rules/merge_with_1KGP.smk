@@ -4,6 +4,8 @@ rule vcf_to_plink:
     output:
         bed = os.path.join(tmpdir, "{sample}", "{sample}.bed"),
         ids = os.path.join(tmpdir, "{sample}", "{sample}.rsids.txt")
+    params:
+        exclude = config["asj_markers"]
     conda:
         "../envs/plink.yaml"
     shell:
@@ -15,7 +17,8 @@ rule vcf_to_plink:
         --const-fid \
         --out $bedprefix \
         --make-bed \
-        --geno
+        --geno \
+        --exclude {params.exclude}
 
         cut -f 2 $bedprefix.bim > {output.ids}
         """
@@ -42,7 +45,7 @@ rule merge_with_1kgp:
         --extract {input.ids} \
         --make-bed \
         --out $outputbedprefix \
-        --indep-pairwise 500 50 0.2 \
+        --indep-pairwise 1000 100 0.2 \
         --remove {params.ignore_fams}
         """
 
@@ -52,7 +55,8 @@ rule keep_ld_pruned:
         ids = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.tmp.prune.in")
     output:
         bed = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.bed"),
-        fam = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.fam")
+        fam = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.fam"),
+        nummarkers = os.path.join(outdir, "individual_admixture_results","{sample}.nummarkers.txt")
     conda:
         "../envs/plink.yaml"
     shell:
@@ -65,4 +69,6 @@ rule keep_ld_pruned:
         --extract {input.ids} \
         --out $outputbedprefix \
         --make-bed
+
+        echo -e {wildcards.sample}"\t"`wc -l {input.ids} | cut -d ' ' -f 1` > {output.nummarkers}
         """

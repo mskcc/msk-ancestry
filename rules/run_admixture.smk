@@ -40,7 +40,7 @@ rule sample_admixture_output:
         admix = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref."+str(numpops)+".Q"),
         fam = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.fam")
     output:
-        os.path.join(outdir, "individual_results", "{sample}.admixture_results.txt")
+        os.path.join(outdir, "individual_admixture_results", "{sample}.admixture_results.txt")
     params:
         kgpops = kgpops
     run:

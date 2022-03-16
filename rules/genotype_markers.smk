@@ -1,10 +1,13 @@
+def get_mem_mb(wildcards, attempt):
+    return attempt * 2000
+
 rule genotype:
     input:
         pileup = os.path.join(tmpdir, "{sample}", "{sample}.pileup.txt"),
         reference = reference,
         markers_txt = markers_txt
     output:
-        temp(os.path.join(tmpdir, "{sample}", "{sample}.genotypes.vcf"))
+        os.path.join(tmpdir, "{sample}", "{sample}.genotypes.vcf")
     conda:
         "../envs/genotyping.yaml"
     params:
@@ -23,9 +26,11 @@ rule pileup:
         markers_vcf = markers_vcf,
         reference = reference
     output:
-        pileup = temp(os.path.join(tmpdir, "{sample}", "{sample}.pileup.txt"))
+        pileup = os.path.join(tmpdir, "{sample}", "{sample}.pileup.txt")
     conda:
         "../envs/gatk.yaml"
+    resources:
+        mem_mb=get_mem_mb
     shell:
         "gatk Pileup -R {input.reference} \
         -I {input.bam} \
