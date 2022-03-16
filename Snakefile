@@ -22,7 +22,7 @@ numpops = len(pd.read_table(kgpops, dtype="str")["SuperPop"].drop_duplicates())
 wildcard_constraints:
     sample="[a-zA-Z0-9_\-]+"
 
-localrules: merge_and_plot, create_pop_file, sample_admixture_output, cleanup, merge_nummarkers, merge_numnonrefasj, ash_nummarkers
+localrules: merge_and_plot, create_pop_file, sample_admixture_output, cleanup, create_qc_files, merge_numnonrefasj, asj_nummarkers
 
 rule cleanup:
     input:
@@ -39,7 +39,7 @@ rule cleanup:
         fi
         """
 
-rule merge_nummarkers:
+rule create_qc_files:
     input:
         admix=expand(os.path.join(outdir, "individual_admixture_results", "{sample}.nummarkers.txt"), sample=samples),
         asj=expand(os.path.join(outdir, "individual_ASJ_results", "{sample}.nummarkers.txt"), sample=samples)
@@ -49,7 +49,7 @@ rule merge_nummarkers:
         """
         cat {input.admix} > {output}.1
         cat {input.asj} > {output}.2
-        echo -e "SAMPLE\tNUM_ADMIXTURE_MARKERS\tNUM_ASJ_MARKERS" > {output}
+        echo -e "Sample\tnum_admixture_markers\tnum_ASJ_markers" > {output}
         paste {output}.1 {output}.2 | cut -f 1,2,4 >> {output}
         rm {output}.1 {output}.2
         """
@@ -66,7 +66,7 @@ rule merge_numnonrefasj:
 rule merge_and_plot:
     input:
         admixture = expand(os.path.join(outdir, "individual_admixture_results", "{sample}.admixture_results.txt"), sample=samples),
-        asj = os.path.join(outdir,"individual_ASJ_results", "num_nonref_ASJ_markers.txt")
+        asj = expand(os.path.join(outdir, "individual_ASJ_results", "{sample}.nonrefasjmarkers.txt"), sample=samples)
     output:
         txt = os.path.join(outdir,"ancestry_results.txt"),
         pdf = os.path.join(outdir,"admixture_results.pdf")

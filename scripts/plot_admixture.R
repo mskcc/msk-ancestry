@@ -49,7 +49,7 @@ add_admixture_labels <- function(admixture,cutoff=0.8) {
 }
 
 add_ash_labels <- function(admixture,numnonrefasjmarkers, cutoff=3) {
-  names(numnonrefasjmarkers)<-c("Sample","num_nonref_asj_markers")
+#  names(numnonrefasjmarkers)<-c("Sample","num_nonref_asj_markers")
   dt<-merge(admixture,numnonrefasjmarkers)
   dt$ASJ<-"no"
   dt[which(dt$num_nonref_asj_markers>=cutoff),]$ASJ<-"yes"
@@ -88,13 +88,13 @@ admixturebarplot <- function(admixture,idvars=c("Sample","admixture_label", "anc
 ######### Main ###################
 # get list of individual admixture results from the snakemake rule input
 inputlist <- unlist(snakemake@input[["admixture"]], recursive=FALSE)
-
+asjlist <- unlist(snakemake@input[["asj"]], recursive=FALSE)
 # Merge ancestry results for all sample into one table
 admixture <- bind_rows(lapply(inputlist, fread))
-
+numnonrefasjmarkers <- bind_rows(lapply(asjlist, fread))
 # Add ancestry and ASJ labels
 admixture <- add_admixture_labels(admixture,cutoff=snakemake@params[["admixcutoff"]])
-admixture <- add_ash_labels(admixture, read.table(snakemake@input[["asj"]]), snakemake@params[["asjcutoff"]])
+admixture <- add_ash_labels(admixture, numnonrefasjmarkers, snakemake@params[["asjcutoff"]])
 admixture <- add_ancestry_labels(admixture)
 
 # Write merged ancestry result to the output file listed in the snakemake rule
