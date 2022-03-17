@@ -1,8 +1,7 @@
 # msk-ancestry
 
-This is a snakemake workflow for ancestry inference from MSK-IMPACT data. It uses 1000 genomes populations as reference and runs supervised ADMIXTURE to estimate the ancestral proportions of European (EUR), African (AFR), Native American (NAM), East Asian (EAS) and South Asian (SAS) for the samples. Additionally, it also genotypes Ashkenazi Jewish (ASJ) ancestry informative markers to infer ASJ ancestry.
+This is a snakemake workflow for ancestry inference from MSK-IMPACT data. It takes BAM file(s) to genotype ancestry informative markers selected for MSK-IMPACT panels, uses 1000 genomes populations as reference and runs supervised ADMIXTURE to estimate the ancestral proportions of European (EUR), African (AFR), Native American (NAM), East Asian (EAS) and South Asian (SAS) for the samples. Additionally, it also genotypes Ashkenazi Jewish (ASJ) ancestry informative markers to infer ASJ ancestry.
 The output file contains ancestry proportions for EUR, AFR, NAM, EAS, SAS; the ASJ ancestry inference and final ancestry labels assigned to each sample. 
-Currently it is only tested on the juno cluster. 
 
 ### Requirements:
 - python3
@@ -14,6 +13,7 @@ Currently it is only tested on the juno cluster.
 
 ### Example command:
 `snakemake --use-conda`
+
 If running on LSF cluster: `snakemake --use-conda --profile lsf`
 
 This expects the Snakemake file in the current working directory.
@@ -22,6 +22,7 @@ You can modify the ***config.yaml*** file to change the input file or output dir
 ### NOTE:
 - Currently the config file points to reference FASTA file in juno. This file will have to copied and the config file will have to be modified if you want to run this on a machine that cannot access these files.
 - The markers used in this workflow are chosen for MSK-IMPACT data. You would have to create new set of marker files to run this on data from different sequencing panels.
+- The reference FASTA file and marker files are for GRCh37 reference genome. You would have to create new set of marker files and provide a different reference FASTA file to run this on BAM files aligned to a different reference genome version.
 - The sample name can only have alphanumeric characters, underscore (\_) or hyphen (-). If it has any other characters, the workflow will fail.  
 
 ## Workflow diagram:
