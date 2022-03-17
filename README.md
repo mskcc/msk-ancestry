@@ -21,7 +21,7 @@ You can modify the ***config.yaml*** file to change the input file or output dir
 
 ### NOTE:
 - Currently the config file points to reference FASTA file in juno. This file will have to copied and the config file will have to be modified if you want to run this on a machine that cannot access these files.
-- The markers used in this workflow are chosen for MSK-IMPACT data. You would have to create new set of marker files to run this on data from different sequencing panels.
+- The markers used in this workflow are chosen for MSK-IMPACT data. You would have to create new set of marker files to run this on data from different sequencing panels. See instructions [here](https://github.com/mskcc/msk-ancestry/blob/main/MarkerSelection.md).
 - The reference FASTA file and marker files are for GRCh37 reference genome. You would have to create new set of marker files and provide a different reference FASTA file to run this on BAM files aligned to a different reference genome version.
 - The sample name can only have alphanumeric characters, underscore (\_) or hyphen (-). If it has any other characters, the workflow will fail.  
 
