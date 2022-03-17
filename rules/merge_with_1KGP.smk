@@ -56,7 +56,7 @@ rule keep_ld_pruned:
     output:
         bed = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.bed"),
         fam = os.path.join(tmpdir, "{sample}", "{sample}.w1kgpref.fam"),
-        nummarkers = os.path.join(outdir, "individual_admixture_results","{sample}.nummarkers.txt")
+        nummarkers = os.path.join(tmpdir, "{sample}","{sample}.admix.nummarkers.txt")
     conda:
         "../envs/plink.yaml"
     shell:

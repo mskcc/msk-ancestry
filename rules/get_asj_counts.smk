@@ -3,9 +3,9 @@ rule asj_nummarkers:
         os.path.join(tmpdir, "{sample}", "{sample}.genotypes.vcf")
     output:
         asj = os.path.join(tmpdir, "{sample}", "{sample}.asj.genotypes.txt"),
-        gt = os.path.join(outdir, "individual_ASJ_results", "{sample}.tsv"),
-        nonref = os.path.join(outdir, "individual_ASJ_results", "{sample}.nonrefasjmarkers.txt"),
-        nummarkers = os.path.join(outdir, "individual_ASJ_results", "{sample}.nummarkers.txt")
+        gt = os.path.join(tmpdir, "{sample}", "{sample}.asj.tsv"),
+        nonref = os.path.join(tmpdir, "{sample}", "{sample}.nonrefasjmarkers.txt"),
+        nummarkers = os.path.join(tmpdir, "{sample}", "{sample}.asj.nummarkers.txt")
     params:
         include = config["asj_markers"]
     shell:

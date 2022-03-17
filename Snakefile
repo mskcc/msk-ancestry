@@ -23,14 +23,13 @@ numpops = len(pd.read_table(kgpops, dtype="str")["SuperPop"].drop_duplicates())
 wildcard_constraints:
     sample="[a-zA-Z0-9_\-]+"
 
-localrules: create_pop_file, sample_admixture_output, cleanup, create_qc_files, asj_nummarkers, create_final_ancestry_files, merge_ancestry_files
+localrules: create_pop_file, sample_admixture_output, cleanup, asj_nummarkers, create_final_ancestry_files
 
 rule cleanup:
     input:
         os.path.join(outdir,"ancestry_results.txt"),
         os.path.join(outdir,"QC", "num_markers_genotyped.txt"),
-        expand(os.path.join(outdir, "individual_admixture_results", "{sample}.nummarkers.txt"), sample=samples),
-        expand(os.path.join(outdir, "individual_ASJ_results", "{sample}.nummarkers.txt"), sample=samples)
+        expand(os.path.join(outdir,"final_ancestry_results", "{sample}.ancestry_results.txt"), sample=samples)
     params:
         tmpdir = tmpdir
     shell:
@@ -42,30 +41,34 @@ rule cleanup:
 
 rule create_qc_files:
     input:
-        admix=expand(os.path.join(outdir, "individual_admixture_results", "{sample}.nummarkers.txt"), sample=samples),
-        asj=expand(os.path.join(outdir, "individual_ASJ_results", "{sample}.nummarkers.txt"), sample=samples)
+        admix=expand(os.path.join(tmpdir, "{sample}", "{sample}.admix.nummarkers.txt"), sample=samples),
+        asj=expand(os.path.join(tmpdir, "{sample}", "{sample}.asj.nummarkers.txt"), sample=samples)
     output:
-        os.path.join(outdir,"QC", "num_markers_genotyped.txt")
-    shell:
-        """
-        cat {input.admix} > {output}.1
-        cat {input.asj} > {output}.2
-        echo -e "Sample\tnum_admixture_markers\tnum_ASJ_markers" > {output}
-        paste {output}.1 {output}.2 | cut -f 1,2,4 >> {output}
-        rm {output}.1 {output}.2
-        """
+        out=os.path.join(outdir,"QC", "num_markers_genotyped.txt")
+    run:
+        dfs=[]
+        for filename in input.admix:
+            dfs.append(pd.read_table(filename, sep="\t", header=None))
+        adm=pd.concat(dfs, ignore_index=True)
+        adm.columns=["Sample","num_admixture_markers"]
+        dfs=[]
+        for filename in input.asj:
+            dfs.append(pd.read_table(filename, sep="\t", header=None))
+        asj=pd.concat(dfs, ignore_index=True)
+        asj.columns=["Sample","num_ASJ_markers"]
+        final=adm.merge(asj, on="Sample")
+        final.to_csv(output.out, index=False, sep="\t")
 
 rule create_final_ancestry_files:
     input:
-        admixture = os.path.join(outdir, "individual_admixture_results", "{sample}.admixture_results.txt"),
-        asj = os.path.join(outdir, "individual_ASJ_results", "{sample}.nonrefasjmarkers.txt")
+        admixture = os.path.join(tmpdir, "{sample}", "{sample}.admixture_results.txt"),
+        asj = os.path.join(tmpdir, "{sample}", "{sample}.nonrefasjmarkers.txt")
     output:
         out = os.path.join(outdir,"final_ancestry_results", "{sample}.ancestry_results.txt")
     params:
         asjcutoff = config["asj_marker_cutoff"],
         admixcutoff = config["admix_frac_cutoff"]
     run:
-        print(output)
         adm=pd.read_table(input.admixture, sep="\t")
         asj=pd.read_table(input.asj, sep="\t")
         final=adm.merge(asj, on="Sample")
