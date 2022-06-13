@@ -75,7 +75,7 @@ rule create_final_ancestry_files:
         final["maxfrac"] = final.drop(columns=["Sample","num_nonref_asj_markers"]).max(axis=1)
         final["admixture_label"] = final.drop(columns=["Sample","num_nonref_asj_markers"]).idxmax(axis=1)
         final["admixture_label"] = np.where(final["maxfrac"] < params.admixcutoff, "ADM", final["admixture_label"])
-        final["ASJ"] = np.where(final['num_nonref_asj_markers'] >= params.admixcutoff, "yes", "no")
+        final["ASJ"] = np.where(final['num_nonref_asj_markers'] >= params.asjcutoff, "yes", "no")
         final["ancestry_label"] = np.where((final["admixture_label"]=="EUR") & (final["ASJ"]=="yes"), "ASJ", final['admixture_label'])
         final=final.drop(columns=["maxfrac"])
         final.to_csv(output.out, index=False, sep="\t")
