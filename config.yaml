@@ -5,8 +5,7 @@ input: metadata/samples.tsv
 outdir: ancestry_results
 
 ## resources and references ##
-reference: /juno/work/access/production/resources/reference/versions/hg19/Homo_sapiens_assembly19.fasta
-## To consider: make the PLINK and marker files part of the repo? ##
+reference: /data1/core006/access/production/resources/reference/versions/hg19/Homo_sapiens_assembly19.fasta
 kgbed: data/1000genomes_phase3_impactv7_maf0.01_snps
 markers_txt: data/impactv7_and_asj_markers.txt
 markers_vcf: data/impactv7_and_asj_markers.vcf

@@ -1,15 +1,19 @@
 def get_mem_mb(wildcards, attempt):
-    return attempt * 2000
+    return attempt *  4000
 
 rule genotype:
     input:
         pileup = os.path.join(tmpdir, "{sample}", "{sample}.pileup.txt"),
         reference = reference,
         markers_txt = markers_txt
+    conda:
+        "../envs/python310.yaml"
     output:
         os.path.join(tmpdir, "{sample}", "{sample}.genotypes.vcf")
     params:
         snakemakedir = snakemakedir
+    resources:
+        mem_mb=2000
     shell:
     	"{params.snakemakedir}/scripts/pileup_to_vcf.py \
     	-P {input.pileup} \
@@ -28,7 +32,9 @@ rule pileup:
     conda:
         "../envs/gatk.yaml"
     resources:
-        mem_mb=get_mem_mb
+        mem_mb=lambda wc, attempt: 4000 * attempt
+    retries: 3
+    threads: 1
     shell:
         "gatk Pileup -R {input.reference} \
         -I {input.bam} \
