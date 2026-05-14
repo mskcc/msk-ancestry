@@ -21,14 +21,14 @@ OR
 `snakemake --use-conda --profile lsf`
 
 #### SLURM cluster:
-`snakemake --use-conda \
+```snakemake --use-conda \
   --executor slurm \
   --jobs 50 \
   --default-resources \
     slurm_partition=<SLURM_PARTITION_NAME> \
     slurm_account=<SLURM_ACCOUNT_NAME> \
     runtime=100
-`
+```
 
 Notes on SLURM execution:
 - `--jobs` controls the maximum number of SLURM jobs submitted concurrently
