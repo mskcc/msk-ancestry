@@ -21,7 +21,8 @@ OR
 `snakemake --use-conda --profile lsf`
 
 #### SLURM cluster:
-```snakemake --use-conda \
+```
+snakemake --use-conda \
   --executor slurm \
   --jobs 50 \
   --default-resources \
