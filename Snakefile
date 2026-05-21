@@ -21,7 +21,7 @@ kgpops = config["kgpops"]
 numpops = len(pd.read_table(kgpops, dtype="str")["SuperPop"].drop_duplicates())
 
 wildcard_constraints:
-    sample="[a-zA-Z0-9_\-]+"
+    sample=r"[a-zA-Z0-9_-]+"
 
 localrules: create_pop_file, sample_admixture_output, cleanup, asj_nummarkers, create_final_ancestry_files
 

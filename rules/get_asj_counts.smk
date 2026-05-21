@@ -9,7 +9,7 @@ rule asj_nummarkers:
     params:
         include = config["asj_markers"]
     shell:
-        """
+        r"""
         for i in `cat {params.include}`; do grep -w $i {input}; done > {output.asj}
 
         grep -v "#" {output.asj} | cut -f 3,10 | grep -v '\./\.' > {output.gt}
